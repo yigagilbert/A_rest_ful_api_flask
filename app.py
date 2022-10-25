@@ -32,6 +32,9 @@ def predictDisease(symptoms):
     X = data.iloc[:,:-1]
     symptoms = X.columns.values
 
+    # value using LabelEncoder
+    encoder = LabelEncoder()
+
     # Creating a symptom index dictionary to encode the
     # input symptoms into numerical form
     symptom_index = {}
@@ -64,11 +67,11 @@ def predictDisease(symptoms):
     svm_prediction = data_dict["predictions_classes"][final_svm_model.predict(input_data)[0]]
 	
 	# making final prediction by taking mode of all predictions
-    final_prediction = mode([rf_prediction, nb_prediction, svm_prediction])[0][0]
+    final_prediction = mode([svm_prediction])[0][0]
     predictions = {
 		# "rf_model_prediction": rf_prediction,
 		# "naive_bayes_prediction": nb_prediction,
-		"svm_model_prediction": nb_prediction,
+		"svm_model_prediction": svm_prediction,
 		"final_prediction":final_prediction
 	}
     return render_template('result.html', predictions)
